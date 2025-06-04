@@ -1,0 +1,371 @@
+.sidebar {
+  width: 300px;
+  height: 100vh;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.sidebar-header {
+  height: 74px;
+  background: white;
+  padding: 16px 20px 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-header h1 {
+  margin: 0;
+  padding: 2px 4px;
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidebar-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  color: #333333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidebar-toggle-btn:hover {
+  background-color: #f3f4f6;
+  color: black;
+  transform: scale(1.1);
+}
+
+.recording-btn-container {
+  padding: 12px 24px;
+  position: relative;
+}
+
+.new-recording-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-sizing: border-box;
+}
+
+.new-recording-btn:hover {
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.folders-section {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.folders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #777777;
+}
+
+.folders-header span {
+  padding: 4px;
+}
+
+.new-folder-btn {
+  background: none;
+  border: none;
+  color: #333333;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.new-folder-btn:hover {
+  background-color: #f3f4f6;
+  color: #000000;
+}
+
+.folders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.folder-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  
+  /* 모바일 터치 스타일 개선 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.folder-item:hover {
+  background-color: #f3f4f6;
+}
+
+.folder-item.selected {
+  background-color: #eff6ff;
+  color: #667eea;
+  border-left: 3px solid #667eea;
+  padding-left: 13px;
+}
+
+.folder-item.selected .folder-count {
+  background-color: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
+.folder-item.editing {
+  pointer-events: none;
+}
+
+.folder-item.editing .folder-name-edit-sidebar {
+  pointer-events: auto;
+}
+
+.folder-icon {
+  margin-right: 8px;
+  color: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.folder-name {
+  height: 26px;
+  padding: 2px 4px;
+  flex: 1;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.folder-name-edit-sidebar {
+  height: 26px;
+  flex: 1;
+  padding: 2px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: transparent;
+  margin-right: 8px;
+} 
+
+.folder-count {
+  font-size: 12px;
+  color: #9ca3af;
+  background-color: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 12px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+  min-width: 60px;
+}
+
+.sidebar.collapsed .sidebar-header {
+  justify-content: center;
+  padding: 16px 8px;
+}
+
+.sidebar.collapsed .sidebar-header h1 {
+  display: none;
+}
+
+.sidebar.collapsed .new-recording-btn {
+  display: none;
+}
+
+.sidebar.collapsed .folders-section {
+  display: none;
+}
+
+.sidebar.collapsed .new-recording-btn {
+  display: none;
+}
+
+.sidebar.collapsed .recording-btn-container {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.collapsed-add-btn {
+  display: none;
+  background: #333333;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.sidebar.collapsed .collapsed-add-btn {
+  display: flex;
+}
+
+.collapsed-add-btn:hover {
+  transform: scale(1.1);
+  background: black;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 접혔을 때 전체 폴더 아이콘 */
+.all-folder-container {
+  display: none;
+  margin-top: 40px;
+  padding: 12px 0;
+  justify-content: center;
+}
+
+.all-folder-container .all-folder-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: #333333;
+  background: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.all-folder-container .all-folder-btn:hover {
+  color: black;
+}
+
+.sidebar.collapsed .all-folder-container {
+  display: flex;
+}
+
+/* 모바일 스타일 */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    background-color: white;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .folders-section {
+    padding: 12px 16px;
+  }
+  
+  .folder-item:active {
+    transform: scale(0.98);
+    background-color: #f1f5f9;
+  }
+  
+  .folder-item.long-pressing {
+    background-color: #eff6ff;
+    transform: scale(0.95);
+  }
+}
+
+.user-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  bottom: 0;
+  width: 100%;
+  padding: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.username {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background: none;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.logout-btn:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+.logout-btn span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 사이드바가 접혔을 때 사용자 섹션 숨기기 */
+.sidebar.collapsed .user-section {
+  display: none;
+}

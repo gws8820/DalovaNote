@@ -1,0 +1,500 @@
+.audio-recorder {
+  max-width: 100%;
+  margin: 0 4px 140px 4px;
+  border: none;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f3f4f6;
+}
+
+.floating-controls {
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(calc(-50% + 150px));
+  width: fit-content;
+  background-color: transparent;
+  border: none;
+  border-radius: 30px;
+  box-shadow: none;
+  z-index: 100;
+  padding: 0;
+  backdrop-filter: none;
+}
+
+.controls {
+  text-align: center;
+  margin-bottom: 0;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* 커스텀 오디오 플레이어 */
+.custom-audio-player {
+  width: 350px;
+}
+
+.audio-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+}
+
+.audio-play-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background-color: #667eea;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.audio-play-button .stop-icon {
+  stroke-width: 1;
+}
+.audio-play-button .play-icon {
+  transform: translateX(1px);
+}
+
+.audio-play-button:hover {
+  background-color: #5a67d8;
+  transform: none;
+}
+
+.audio-progress-container {
+  flex: 1;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.audio-progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: rgba(71, 85, 105, 0.5);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.audio-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2px;
+  transition: width 0.1s ease;
+}
+
+.audio-time {
+  color: #4b5563;
+  font-size: 12px;
+  font-family: "Pretendard", sans-serif;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 80px;
+  text-align: right;
+}
+
+.record-start-button {
+  height: 48px;
+  border-radius: 24px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #667eea;
+  background-color: white;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0 16px;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.record-start-button svg {
+  transform: translateY(-0.8px);
+}
+
+.record-start-button:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  transform: scale(1.05);
+}
+
+.record-start-button:hover svg {
+  transform: translateY(-0.8px) scale(1.05);
+}
+
+.recording-controls {
+  display: flex;
+  gap: 12px;
+  padding: 0;
+  background-color: transparent;
+}
+
+.pause-button, .resume-button, .complete-button {
+  height: 48px;
+  border-radius: 24px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0 16px;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.pause-button svg, .resume-button svg, .complete-button svg {
+  transform: translateY(-0.8px);
+}
+
+.pause-button {
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+}
+
+.pause-button:hover {
+  background: linear-gradient(135deg, #d97706 0%, #ea580c 100%);
+  transform: scale(1.05);
+}
+
+.pause-button:hover svg {
+  transform: translateY(-0.8px) scale(1.05);
+}
+
+.resume-button {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.resume-button:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: scale(1.05);
+}
+
+.resume-button:hover svg {
+  transform: translateY(-0.8px) scale(1.05);
+}
+
+.complete-button {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+}
+
+.complete-button:hover {
+  background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+  transform: scale(1.05);
+}
+
+.complete-button:hover svg {
+  transform: translateY(-0.8px) scale(1.05);
+}
+
+.record-button.recording {
+  background-color: #ef4444;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.8; 
+    transform: none;
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+}
+
+.chunks-container {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.transcript {
+  width: 100%;
+  max-width: 100%;
+  min-height: 200px;
+  padding: 32px;
+  background-color: white;
+  border: none;
+  border-radius: 12px;
+  line-height: 1.8;
+  font-size: 15px;
+  color: #1f2937;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  font-weight: 400;
+}
+
+.chunk-span {
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+  display: inline;
+  font-weight: 400;
+  color: inherit;
+  background-color: transparent;
+}
+
+.chunk-span.disabled {
+  cursor: default;
+}
+
+.chunk-span:hover {
+  background-color: #eff6ff;
+  color: #667eea;
+  font-weight: 400;
+  border-radius: 3px;
+  padding: 0;
+  text-shadow: 0 0 1px rgba(102, 126, 234, 0.6);
+}
+
+.chunk-span.disabled:hover {
+  background-color: transparent;
+  color: inherit;
+  font-weight: 400;
+  border-radius: 0;
+  padding: 0;
+  text-shadow: none;
+}
+
+.chunk-span.playing {
+  background-color: #fef3c7;
+  color: #d97706;
+  font-weight: 400;
+  border-radius: 3px;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.15);
+  text-shadow: 0 0 1px rgba(217, 119, 6, 0.7);
+}
+
+.interim-text {
+  color: inherit;
+  font-style: normal;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  transition: none;
+  animation: none;
+  font-weight: 400;
+  display: inline;
+}
+
+.placeholder {
+  text-align: center;
+  color: #9ca3af;
+  font-style: normal;
+  margin: 0;
+  padding: 60px 20px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.saving-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.saving-spinner {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  width: 280px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: slideIn 0.3s ease-out;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(102, 126, 234, 0.2);
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.success-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #667eea;
+  animation: checkIn 0.5s ease-out;
+}
+
+.success-icon svg {
+  filter: drop-shadow(0 2px 4px rgba(102, 126, 234, 0.2));
+}
+
+.saving-message {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #4b5563;
+  text-align: center;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes checkIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .audio-recorder {
+    margin: 0 4px 160px 4px;
+  }
+  
+  .floating-controls {
+    position: fixed;
+    left: 50%;
+    right: auto;
+    bottom: 16px;
+    transform: translateX(-50%);
+    width: auto;
+    background-color: transparent;
+    border: none;
+    border-radius: 12px;
+    box-shadow: none;
+    z-index: 100;
+    padding: 0;
+    backdrop-filter: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .custom-audio-player {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .audio-controls-row {
+    padding: 10px 12px;
+    gap: 8px;
+    margin: 0 auto;
+  }
+  
+  .audio-play-button {
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
+  }
+  
+  .audio-time {
+    font-size: 11px;
+    min-width: 70px;
+  }
+  
+  .transcript {
+    min-height: 150px;
+    padding: 20px;
+    font-size: 14px;
+  }
+  
+  .record-button {
+    height: 44px;
+    padding: 0 14px;
+    font-size: 13px;
+  }
+  
+  .record-button::before {
+    font-size: 14px;
+  }
+  
+  .record-button::after {
+    font-size: 13px;
+  }
+  
+  .placeholder {
+    padding: 40px 15px;
+  }
+  
+  .recording-controls {
+    padding: 0;
+    gap: 8px;
+  }
+}

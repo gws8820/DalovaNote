@@ -1,0 +1,265 @@
+.title-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    padding: 0;
+    position: relative;
+    height: 60px;
+}
+
+/* 제목 공통 스타일 */
+.title, .title-edit {
+    color: #1f2937;
+    font-weight: 700;
+    font-size: 28px;
+    font-family: inherit;
+    letter-spacing: -0.02em;
+    margin-bottom: 0;
+    display: block;
+    padding: 8px 0 8px 2px;
+    border-radius: 6px;
+    line-height: 38px;
+    box-sizing: border-box;
+    min-height: 54px;
+    flex: 1;
+    width: calc(100% - 50px);
+    max-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 일반 제목 스타일 */
+.title {
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* 편집 가능한 제목 hover 효과 */
+.title:hover {
+    background-color: #f3f4f6;
+    color: #667eea;
+}
+
+/* 비활성화된 제목 hover 효과 제거 */
+.title-disabled:hover {
+    background-color: transparent;
+    color: #1f2937;
+}
+
+/* 제목 편집 입력 필드 */
+.title-edit {
+    border: 2px solid #667eea;
+    outline: none;
+}
+
+/* 공통 삭제 버튼 스타일 */
+.delete-btn {
+    background-color: transparent;
+    color: #dc2626;
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.delete-btn:hover {
+    opacity: 1;
+    background-color: rgba(220, 38, 38, 0.1);
+    transform: scale(1.05);
+}
+
+/* 정보 섹션 */
+.info-section {
+    margin-bottom: 30px;
+    padding: 0 6px;
+    color: #6b7280;
+    font-size: 16px;
+}
+
+/* 녹음 카드 그리드 */
+.recordings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 0 4px;
+    box-sizing: border-box;
+}
+
+.recording-card {
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid #f3f4f6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    
+    /* 모바일 터치 스타일 개선 */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.recording-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: #e5e7eb;
+}
+
+.recording-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px 0 24px;
+    gap: 8px;
+}
+
+.recording-card-content {
+    padding: 2px 24px 24px 24px;
+    flex: 1;
+}
+
+.recording-card-title {
+    font-weight: 600;
+    font-size: 17.6px;
+    font-family: inherit;
+    color: #1f2937;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+    padding: 4px 0 4px 2px;
+    min-height: 32px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    box-sizing: border-box;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.recording-card-date {
+    font-size: 13.6px;
+    color: #9ca3af;
+    margin-bottom: 12px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.recording-card-preview {
+    font-size: 14.4px;
+    color: #6b7280;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.recording-card .delete-btn {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    flex-shrink: 0;
+}
+
+.recording-card:hover .delete-btn {
+    opacity: 0.6;
+}
+
+.recording-card .delete-btn:hover {
+     opacity: 1;
+}
+
+.recording-card-edit {
+    flex: 1;
+    padding: 4px 0 4px 2px;
+    border: 2px solid #667eea;
+    border-radius: 4px;
+    font-size: 17.6px;
+    font-weight: 600;
+    font-family: inherit;
+    color: #1f2937;
+    background-color: white;
+    outline: none;
+    box-shadow: none;
+    margin-bottom: 0;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+    box-sizing: border-box;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.no-recordings-in-folder {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 32px;
+    color: #6b7280;
+}
+
+.no-recordings-in-folder p {
+    margin-bottom: 24px;
+    font-size: 17.6px;
+}
+
+.create-recording-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 15.2px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.create-recording-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+@media (max-width: 768px) {
+    .recordings-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    
+    /* 모바일에서 카드 터치 피드백 */
+    .recording-card:active {
+        transform: scale(0.98);
+        background-color: #f8fafc;
+    }
+    
+    /* 모바일에서 길게 누르기 시각적 피드백 */
+    .recording-card.long-pressing {
+        background-color: #eff6ff;
+        transform: scale(0.95);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+    }
+}
