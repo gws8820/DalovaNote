@@ -8,7 +8,7 @@ const { authenticateToken } = require('./auth');
 
 const router = express.Router();
 
-const uploadDir = path.join(__dirname, '../records');
+const uploadDir = path.join(__dirname, '../recordings');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -101,7 +101,7 @@ router.post('/:recordingId/complete', authenticateToken, upload.single('audio'),
       await connection.beginTransaction();
 
       try {
-        const audioFilePath = `records/${audioFile.filename}`;
+        const audioFilePath = `recordings/${audioFile.filename}`;
         
         let previewText = '';
         if (chunksData) {
