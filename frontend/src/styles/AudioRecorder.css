@@ -9,8 +9,8 @@
 }
 
 .floating-controls {
-  position: fixed;
-  bottom: 50px;
+  position: absolute;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   width: fit-content;
@@ -427,12 +427,14 @@
   }
   
   .floating-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     left: 50%;
     right: auto;
     bottom: 16px;
     transform: translateX(-50%);
-    width: auto;
     background-color: transparent;
     border: none;
     border-radius: 12px;
@@ -440,9 +442,6 @@
     z-index: 100;
     padding: 0;
     backdrop-filter: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
   
   .custom-audio-player {

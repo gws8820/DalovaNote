@@ -31,6 +31,12 @@ function Sidebar({
     }
   };
 
+  const closeSidebarForNewRecording = () => {
+    if (!isSidebarCollapsed) {
+      toggleSidebar();
+    }
+  };
+
   const handleGoToHome = () => {
     goToHome();
     closeSidebarOnMobile();
@@ -38,7 +44,7 @@ function Sidebar({
 
   const handleCreateNewRecording = () => {
     createNewRecording();
-    closeSidebarOnMobile();
+    closeSidebarForNewRecording();
   };
 
   const handleCreateNewFolder = () => {

@@ -1,3 +1,8 @@
+.folder-page,
+.recording-page {
+    height: 100%;
+}
+
 .title-section {
     display: flex;
     justify-content: space-between;
