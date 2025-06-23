@@ -25,38 +25,32 @@ function Sidebar({
 }) {
   const { user, logout } = useAuth();
 
-  // 모바일에서 버튼 클릭 후 사이드바 닫기 헬퍼 함수
   const closeSidebarOnMobile = () => {
     if (window.innerWidth <= 768 && !isSidebarCollapsed) {
       toggleSidebar();
     }
   };
 
-  // 홈으로 이동 (모바일에서 사이드바 닫기)
   const handleGoToHome = () => {
     goToHome();
     closeSidebarOnMobile();
   };
 
-  // 새 녹음 만들기 (모바일에서 사이드바 닫기)
   const handleCreateNewRecording = () => {
     createNewRecording();
     closeSidebarOnMobile();
   };
 
-  // 새 폴더 만들기 (모바일에서 사이드바 닫기)
   const handleCreateNewFolder = () => {
     createNewFolder();
     closeSidebarOnMobile();
   };
 
-  // 폴더 클릭 (모바일에서 사이드바 닫기)
   const handleFolderClickWithClose = (folderId) => {
     handleFolderClick(folderId);
     closeSidebarOnMobile();
   };
 
-  // 로그아웃
   const handleLogout = () => {
     logout();
   };
@@ -84,7 +78,6 @@ function Sidebar({
         </button>
       </div>
       
-      {/* 사이드바가 접혔을 때 전체 폴더 아이콘 */}
       <div className="all-folder-container">
         <button 
           className="all-folder-btn" 
@@ -107,7 +100,6 @@ function Sidebar({
         
         <div className="folders-list">
           {folders.map(folder => {
-            // 전체 폴더가 아닌 경우에만 길게 누르기 이벤트 핸들러 생성
             const longPressProps = folder.id === 'all' || folder.isDefault 
               ? {} 
               : createLongPressHandler((e) => handleFolderContextMenu(e, folder));
@@ -168,4 +160,4 @@ function Sidebar({
   );
 }
 
-export default Sidebar; 
+export default Sidebar;

@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [authToken, setAuthToken] = useState(null);
 
-  // 컴포넌트 마운트 시 localStorage에서 토큰 확인
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     const userData = localStorage.getItem('userData');
@@ -34,18 +33,15 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false);
   }, []);
 
-  // 로그인
   const login = async (email, password) => {
     try {
       const response = await authAPI.login({ email, password });
       
       const { token, user: userData } = response;
       
-      // 로컬 스토리지에 저장
       localStorage.setItem('authToken', token);
       localStorage.setItem('userData', JSON.stringify(userData));
       
-      // 상태 업데이트
       setAuthToken(token);
       setUser(userData);
       
@@ -56,18 +52,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // 회원가입
   const register = async (username, email, password) => {
     try {
       const response = await authAPI.register({ username, email, password });
       
       const { token, user: userData } = response;
       
-      // 로컬 스토리지에 저장
       localStorage.setItem('authToken', token);
       localStorage.setItem('userData', JSON.stringify(userData));
       
-      // 상태 업데이트
       setAuthToken(token);
       setUser(userData);
       
@@ -78,7 +71,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // 로그아웃
   const logout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userData');
@@ -101,4 +93,4 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-}; 
+};

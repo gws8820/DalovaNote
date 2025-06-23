@@ -1,19 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import '../styles/Modal.css';
 
-// Modal 컴포넌트
 const Modal = ({ 
   isOpen, 
   onClose, 
   title = '알림', 
   message, 
-  type = 'info', // 'info', 'warning', 'error', 'confirm', 'input'
   onConfirm = null,
   confirmText = '확인',
   cancelText = '취소',
   showCancel = false,
   placeholder = '',
-  defaultValue = ''
+  defaultValue = '',
+  isInput = false
 }) => {
   const [inputValue, setInputValue] = useState(defaultValue);
 
@@ -25,7 +24,7 @@ const Modal = ({
 
   const handleConfirm = () => {
     if (onConfirm) {
-      if (type === 'input') {
+      if (isInput) {
         onConfirm(inputValue.trim());
       } else {
         onConfirm();
@@ -46,7 +45,7 @@ const Modal = ({
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && type === 'input') {
+    if (e.key === 'Enter' && isInput) {
       handleConfirm();
     } else if (e.key === 'Escape') {
       handleCancel();
@@ -55,7 +54,7 @@ const Modal = ({
 
   return (
     <div className="modal-backdrop" onClick={handleBackdropClick}>
-      <div className={`modal-container ${type === 'input' ? 'modal-input-container' : ''}`}>
+      <div className={`modal-container ${isInput ? 'modal-input-container' : ''}`}>
         <div className="modal-header">
           <h3 className="modal-title">{title}</h3>
         </div>
@@ -66,7 +65,7 @@ const Modal = ({
               <p className="modal-message">{message}</p> : 
               <div className="modal-message">{message}</div>
           )}
-          {type === 'input' && (
+          {isInput && (
             <input
               type="text"
               value={inputValue}
@@ -92,7 +91,7 @@ const Modal = ({
           <button 
             className="modal-button modal-button-confirm" 
             onClick={handleConfirm}
-            disabled={type === 'input' && !inputValue.trim()}
+            disabled={isInput && !inputValue.trim()}
           >
             {confirmText}
           </button>
@@ -102,19 +101,18 @@ const Modal = ({
   );
 };
 
-// useModal 훅
 const useModal = () => {
   const [modal, setModal] = useState({
     isOpen: false,
     title: '',
     message: '',
-    type: 'info',
     onConfirm: null,
     confirmText: '확인',
     cancelText: '취소',
     showCancel: false,
     placeholder: '',
-    defaultValue: ''
+    defaultValue: '',
+    isInput: false
   });
 
   const closeModal = () => {
@@ -124,58 +122,41 @@ const useModal = () => {
   const showModal = ({
     title = '알림',
     message,
-    type = 'info',
     onConfirm = null,
     confirmText = '확인',
     cancelText = '취소',
     showCancel = false,
     placeholder = '',
-    defaultValue = ''
+    defaultValue = '',
+    isInput = false
   }) => {
     setModal({
       isOpen: true,
       title,
       message,
-      type,
       onConfirm,
       confirmText,
       cancelText,
       showCancel,
       placeholder,
-      defaultValue
+      defaultValue,
+      isInput
     });
   };
 
-  // 간편 메서드들
   const showAlert = (message, title = '알림') => {
     showModal({
       title,
-      message,
-      type: 'info'
+      message
     });
   };
 
-  const showWarning = (message, title = '경고') => {
-    showModal({
-      title,
-      message,
-      type: 'warning'
-    });
-  };
 
-  const showError = (message, title = '오류') => {
-    showModal({
-      title,
-      message,
-      type: 'error'
-    });
-  };
 
   const showConfirm = (message, onConfirm, title = '확인') => {
     showModal({
       title,
       message,
-      type: 'confirm',
       onConfirm,
       showCancel: true,
       confirmText: '확인',
@@ -186,13 +167,13 @@ const useModal = () => {
   const showInput = (title, placeholder, onConfirm, defaultValue = '') => {
     showModal({
       title,
-      type: 'input',
       onConfirm,
       showCancel: true,
       confirmText: '확인',
       cancelText: '취소',
       placeholder,
-      defaultValue
+      defaultValue,
+      isInput: true
     });
   };
 
@@ -201,14 +182,11 @@ const useModal = () => {
     closeModal,
     showModal,
     showAlert,
-    showWarning,
-    showError,
     showConfirm,
     showInput
   };
 };
 
-// Context
 const ModalContext = createContext();
 
 export const ModalProvider = ({ children }) => {
@@ -222,13 +200,13 @@ export const ModalProvider = ({ children }) => {
         onClose={modalHook.closeModal}
         title={modalHook.modal.title}
         message={modalHook.modal.message}
-        type={modalHook.modal.type}
         onConfirm={modalHook.modal.onConfirm}
         confirmText={modalHook.modal.confirmText}
         cancelText={modalHook.modal.cancelText}
         showCancel={modalHook.modal.showCancel}
         placeholder={modalHook.modal.placeholder}
         defaultValue={modalHook.modal.defaultValue}
+        isInput={modalHook.modal.isInput}
       />
     </ModalContext.Provider>
   );

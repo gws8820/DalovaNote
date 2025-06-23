@@ -21,7 +21,6 @@ const LoginPage = () => {
       [name]: value
     }));
     
-    // 에러 클리어
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -185,7 +184,13 @@ const LoginPage = () => {
             className="submit-button"
             disabled={isLoading}
           >
-            {isLoading ? '처리 중...' : (isLoginMode ? '로그인' : '회원가입')}
+            {isLoading ? (
+              <div className="spinner-container">
+                <div className="spinner"></div>
+              </div>
+            ) : (
+              isLoginMode ? '로그인' : '회원가입'
+            )}
           </button>
         </form>
 

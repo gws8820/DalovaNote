@@ -105,54 +105,14 @@
 }
 
 .modal-button-confirm {
-  background-color: #3b82f6;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
 }
 
 .modal-button-confirm:hover {
-  background-color: #2563eb;
+  background: linear-gradient(135deg, #6278de 0%, #72489c 100%);
 }
 
-/* 타입별 스타일 */
-.modal-info .modal-header {
-  border-bottom-color: #dbeafe;
-}
-
-.modal-warning .modal-header {
-  border-bottom-color: #fef3c7;
-}
-
-.modal-warning .modal-button-confirm {
-  background-color: #f59e0b;
-}
-
-.modal-warning .modal-button-confirm:hover {
-  background-color: #d97706;
-}
-
-.modal-error .modal-header {
-  border-bottom-color: #fecaca;
-}
-
-.modal-error .modal-button-confirm {
-  background-color: #ef4444;
-}
-
-.modal-error .modal-button-confirm:hover {
-  background-color: #dc2626;
-}
-
-.modal-confirm .modal-header {
-  border-bottom-color: #e0e7ff;
-}
-
-.modal-confirm .modal-button-confirm {
-  background-color: #6366f1;
-}
-
-.modal-confirm .modal-button-confirm:hover {
-  background-color: #4f46e5;
-}
 
 /* 애니메이션 */
 @keyframes fadeIn {

@@ -11,8 +11,8 @@ export const useRecordings = () => {
   const [editingRecordingId, setEditingRecordingId] = useState(null);
   const [editingName, setEditingName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
 
-  // 서버에서 녹음 목록 로드
   const loadRecordings = useCallback(async () => {
     if (!isAuthenticated) return;
     
@@ -22,21 +22,24 @@ export const useRecordings = () => {
       setRecordings(response.recordings || []);
     } catch (error) {
       console.error('녹음 목록 로드 실패:', error);
-      // 에러 시 빈 배열로 설정
       setRecordings([]);
     } finally {
       setIsLoading(false);
     }
   }, [isAuthenticated]);
 
-  // 인증 상태가 변경되면 녹음 로드
   useEffect(() => {
     loadRecordings();
   }, [loadRecordings]);
 
-  // 새 녹음 만들기
   const createNewRecording = async (selectedFolderId) => {
-    const newName = '새 녹음';
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const newName = `녹음 ${year}-${month}-${day} ${hours}:${minutes}`;
     const currentFolderIds = selectedFolderId && selectedFolderId !== 'all' ? [selectedFolderId] : [];
     
     const recordingData = {
@@ -45,10 +48,10 @@ export const useRecordings = () => {
     };
 
     try {
+      setIsCreating(true);
       setIsLoading(true);
       const response = await recordingsAPI.create(recordingData);
       
-      // 새 녹음을 목록에 추가
       const newRecording = response.recording;
       setRecordings(prev => [newRecording, ...prev]);
       setSelectedRecordingId(newRecording.id.toString());
@@ -57,20 +60,27 @@ export const useRecordings = () => {
       
     } catch (error) {
       console.error('녹음 생성 실패:', error);
-      modalHook.showError(error.message || '녹음 생성에 실패했습니다');
-      throw error; // 에러를 다시 throw해서 AudioRecorder에서 처리할 수 있도록
+      modalHook.showAlert(error.message || '녹음 생성에 실패했습니다');
+      throw error;
     } finally {
+      setIsCreating(false);
       setIsLoading(false);
     }
   };
 
-  // 녹음 이름 업데이트
   const updateRecordingName = async (id, newName) => {
+    const previousRecording = recordings.find(rec => rec.id === parseInt(id));
+    if (!previousRecording) return;
+    const previousName = previousRecording.name;
+    
+    setRecordings(prev => prev.map(rec => 
+      rec.id === parseInt(id) ? { ...rec, name: newName } : rec
+    ));
+    
     try {
       setIsLoading(true);
       const response = await recordingsAPI.update(id, { name: newName });
       
-      // 녹음 목록 업데이트
       const updatedRecording = response.recording;
       setRecordings(prev => prev.map(rec => 
         rec.id === parseInt(id) ? { ...rec, name: updatedRecording.name } : rec
@@ -78,57 +88,73 @@ export const useRecordings = () => {
       
     } catch (error) {
       console.error('녹음 이름 수정 실패:', error);
-      modalHook.showWarning(error.message || '녹음 이름 수정에 실패했습니다');
+      setRecordings(prev => prev.map(rec => 
+        rec.id === parseInt(id) ? { ...rec, name: previousName } : rec
+      ));
+      modalHook.showAlert(error.message || '녹음 이름 수정에 실패했습니다');
     } finally {
       setIsLoading(false);
     }
   };
 
-  // 녹음 삭제
   const deleteRecording = async (id) => {
+    const recordingToDelete = recordings.find(rec => rec.id === parseInt(id));
+    if (!recordingToDelete) return false;
+    
+    const wasSelected = selectedRecordingId === id;
+    
+    setRecordings(prev => prev.filter(rec => rec.id !== parseInt(id)));
+    
+    if (wasSelected) {
+      setSelectedRecordingId(null);
+    }
+    
     try {
       setIsLoading(true);
       await recordingsAPI.delete(id);
       
-      // 녹음 목록에서 제거
-      setRecordings(prev => prev.filter(rec => rec.id !== parseInt(id)));
-      
-      // 현재 선택된 녹음이 삭제된 녹음이라면 선택 해제
-      if (selectedRecordingId === id) {
-        setSelectedRecordingId(null);
-        return true; // 현재 선택된 녹음이 삭제됨을 알림
-      }
-      return false;
+      return wasSelected;
       
     } catch (error) {
       console.error('녹음 삭제 실패:', error);
-      modalHook.showWarning(error.message || '녹음 삭제에 실패했습니다');
+      setRecordings(prev => {
+        const newRecordings = [...prev, recordingToDelete];
+        return newRecordings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      });
+      
+      if (wasSelected) {
+        setSelectedRecordingId(id);
+      }
+      
+      modalHook.showAlert(error.message || '녹음 삭제에 실패했습니다');
       return false;
     } finally {
       setIsLoading(false);
     }
   };
 
-  // 녹음을 폴더에 추가/제거 (토글)
   const toggleRecordingInFolder = async (recordingId, targetFolderId) => {
     const recording = recordings.find(r => r.id === parseInt(recordingId));
     if (!recording) return;
     
-    let newFolderIds = [...(recording.folderIds || [])];
+    const previousFolderIds = [...(recording.folderIds || [])];
+    
+    let newFolderIds = [...previousFolderIds];
     
     if (newFolderIds.includes(targetFolderId)) {
-      // 폴더에서 제거
       newFolderIds = newFolderIds.filter(id => id !== targetFolderId);
     } else {
-      // 폴더에 추가
       newFolderIds.push(targetFolderId);
     }
+    
+    setRecordings(prev => prev.map(rec => 
+      rec.id === parseInt(recordingId) ? { ...rec, folderIds: newFolderIds } : rec
+    ));
     
     try {
       setIsLoading(true);
       const response = await recordingsAPI.update(recordingId, { folderIds: newFolderIds });
       
-      // 녹음 목록 업데이트
       const updatedRecording = response.recording;
       setRecordings(prev => prev.map(rec => 
         rec.id === parseInt(recordingId) ? { ...rec, folderIds: updatedRecording.folderIds } : rec
@@ -136,19 +162,20 @@ export const useRecordings = () => {
       
     } catch (error) {
       console.error('녹음 폴더 변경 실패:', error);
-      modalHook.showWarning(error.message || '녹음 폴더 변경에 실패했습니다');
+      setRecordings(prev => prev.map(rec => 
+        rec.id === parseInt(recordingId) ? { ...rec, folderIds: previousFolderIds } : rec
+      ));
+      modalHook.showAlert(error.message || '녹음 폴더 변경에 실패했습니다');
     } finally {
       setIsLoading(false);
     }
   };
 
-  // 이름 수정 시작
   const startEditName = (id, currentName) => {
     setEditingRecordingId(id);
     setEditingName(currentName);
   };
 
-  // 이름 수정 저장
   const saveEditName = async () => {
     const newName = editingName.trim() || '새 녹음';
     await updateRecordingName(editingRecordingId, newName);
@@ -156,13 +183,11 @@ export const useRecordings = () => {
     setEditingName('');
   };
 
-  // 이름 수정 취소
   const cancelEditName = () => {
     setEditingRecordingId(null);
     setEditingName('');
   };
 
-  // 키보드 이벤트 처리
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       saveEditName();
@@ -171,9 +196,7 @@ export const useRecordings = () => {
     }
   };
 
-  // 폴더 삭제 시 녹음들 업데이트
   const updateRecordingsOnFolderDelete = (folderId) => {
-    // 서버에서 폴더 삭제 시 자동으로 처리되므로 녹음 목록을 다시 로드
     loadRecordings();
   };
 
@@ -184,6 +207,7 @@ export const useRecordings = () => {
     editingRecordingId,
     editingName,
     isLoading,
+    isCreating,
     setEditingName,
     createNewRecording,
     updateRecordingName,
@@ -196,4 +220,4 @@ export const useRecordings = () => {
     updateRecordingsOnFolderDelete,
     loadRecordings
   };
-}; 
+};

@@ -25,7 +25,6 @@ function FolderPage({
   handleFolderNameBlur,
   handleFolderKeyPress
 }) {
-  // 현재 폴더의 녹음들 필터링
   const getCurrentFolderRecordings = () => {
     if (!selectedFolderId) return [];
     
@@ -33,7 +32,6 @@ function FolderPage({
       return recordings;
     }
     
-    // selectedFolderId를 정수로 변환하여 비교
     const folderId = parseInt(selectedFolderId);
     return recordings.filter(recording => 
       recording.folderIds && recording.folderIds.includes(folderId)
@@ -87,7 +85,6 @@ function FolderPage({
       <div className="recordings-grid">
         {folderRecordings.length > 0 ? (
           folderRecordings.map(recording => {
-            // 각 녹음에 대해 길게 누르기 이벤트 핸들러 생성
             const longPressProps = createLongPressHandler((e) => handleContextMenu(e, recording));
             
             return (
@@ -146,4 +143,4 @@ function FolderPage({
   );
 }
 
-export default FolderPage; 
+export default FolderPage;

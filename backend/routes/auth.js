@@ -74,11 +74,6 @@ router.post('/register', async (req, res) => {
 
       const userId = result.insertId;
 
-      await connection.execute(
-        'INSERT INTO folders (user_id, name) VALUES (?, ?)',
-        [userId, '전체 녹음']
-      );
-
       const token = generateToken(userId, username);
 
       res.status(201).json({

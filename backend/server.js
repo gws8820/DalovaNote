@@ -4,7 +4,6 @@ const path = require('path');
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
-// 데이터베이스 연결 풀 생성
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -16,7 +15,6 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// 데이터베이스 연결 테스트
 const testConnection = async () => {
   try {
     const connection = await pool.getConnection();
@@ -24,11 +22,10 @@ const testConnection = async () => {
     connection.release();
   } catch (error) {
     console.error('MySQL database connection failed:', error.message);
-    throw error; // process.exit 대신 에러를 throw해서 더 유연하게 처리
+    throw error;
   }
 };
 
-// pool을 글로벌하게 접근 가능하도록 설정
 global.dbPool = pool;
 
 const app = express();
